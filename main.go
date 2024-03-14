@@ -1,56 +1,26 @@
 package main
 
 import (
-	"os"
-	"strconv"
+	"raytracing-in-go/colour"
+	"raytracing-in-go/image"
 )
 
-type colour struct {
-	r, g, b byte // We are using 8-bit colour
-}
-
-func writeImageToFile(image [][]colour, filepath string) {
-	file, _ := os.Create(filepath)
-	defer file.Close()
-
-	file.WriteString(("P3\n"))
-	file.WriteString(strconv.Itoa(len(image[0])) + " " + strconv.Itoa(len(image)) + "\n")
-	file.WriteString(strconv.Itoa(255) + "\n")
-
-	for _, row := range image {
-		for _, column := range row {
-			file.WriteString(strconv.Itoa(int(column.r)))
-			file.WriteString(" ")
-			file.WriteString(strconv.Itoa(int(column.g)))
-			file.WriteString(" ")
-			file.WriteString(strconv.Itoa(int(column.b)))
-			file.WriteString(" ")
-		}
-		file.WriteString("\n")
-	}
-}
-
 func main() {
-
 	width := 50
 	height := 30
 
-	var image [][]colour
-
-	red := colour{255, 0, 0}
+	picture := image.New(width, height)
 
 	for row := range height {
-		var newRow = make([]colour, width)
-
-		for column := range width {
-			if (row+column)%2 == 0 {
-				newRow[column] = red
+		for col := range width {
+			if (row+col)%2 == 0 {
+				picture[row][col] = colour.New(255, 0, 0)
+			} else {
+				picture[row][col] = colour.New(0, 0, 255)
 			}
 		}
-
-		image = append(image, newRow)
 	}
 
 	// By this point we have a simple checkerboard image; now let's save to a file:
-	writeImageToFile(image, "output.ppm")
+	image.WriteToFile(picture, "image.ppm")
 }
