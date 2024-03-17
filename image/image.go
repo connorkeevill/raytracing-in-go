@@ -4,6 +4,7 @@ import (
 	"os"
 	"raytracing-in-go/colour"
 	"strconv"
+	"strings"
 )
 
 type Image struct {
@@ -37,19 +38,23 @@ func WriteToFile(image Image, filepath string) {
 	file, _ := os.Create(filepath)
 	defer file.Close()
 
-	file.WriteString(("P3\n"))
-	file.WriteString(strconv.Itoa(image.Width) + " " + strconv.Itoa(image.Height) + "\n")
-	file.WriteString(strconv.Itoa(255) + "\n")
+	outputString := strings.Builder{}
+
+	outputString.WriteString(("P3\n"))
+	outputString.WriteString(strconv.Itoa(image.Width) + " " + strconv.Itoa(image.Height) + "\n")
+	outputString.WriteString(strconv.Itoa(255) + "\n")
 
 	for y := range image.Height {
 		for x := range image.Width {
-			file.WriteString(strconv.Itoa(int(image.GetPixel(x, y).R)))
-			file.WriteString(" ")
-			file.WriteString(strconv.Itoa(int(image.GetPixel(x, y).G)))
-			file.WriteString(" ")
-			file.WriteString(strconv.Itoa(int(image.GetPixel(x, y).B)))
-			file.WriteString(" ")
+			outputString.WriteString(strconv.Itoa(int(image.GetPixel(x, y).R)))
+			outputString.WriteString(" ")
+			outputString.WriteString(strconv.Itoa(int(image.GetPixel(x, y).G)))
+			outputString.WriteString(" ")
+			outputString.WriteString(strconv.Itoa(int(image.GetPixel(x, y).B)))
+			outputString.WriteString(" ")
 		}
-		file.WriteString("\n")
+		outputString.WriteString("\n")
 	}
+
+	file.WriteString(outputString.String())
 }
