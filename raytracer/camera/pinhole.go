@@ -28,7 +28,7 @@ type Traceable interface {
 
 func New(position, lookDir geometry.Vector, resolution Resolution, fov float64) Pinhole {
 	// Some ugly looking linear alg coming here; this forms the camera's basis vectors.
-	// Firstly: we will work out the vector that points to the right of the camera. To do this, we need to take a dot
+	// Firstly: we will work out the vector that points to the right of the camera. To do this, we need to take a cross
 	// product between the lookDir vector (or, strictly speaking, its negation), and one other vector; we will use
 	// the world "up" vector, assuming that the camera will rotate around the y-axis.
 	worldUp := geometry.Vector{Y: 1}
