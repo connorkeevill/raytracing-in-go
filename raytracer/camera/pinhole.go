@@ -47,7 +47,7 @@ func New(position, lookDir geometry.Vector, resolution Resolution, fov float64) 
 		rightDir: cameraRight,
 		// Maybe a slightly weird expression, but imagine the triangle formed by the camera frustum (from above), and
 		// do some trig to work out the distance between the camera center and the opposite side (of the triangle).
-		planeDistance: float64(resolution.Width/2) * math.Tan(math.Pi/180*(180-(fov/2))),
+		planeDistance: float64(resolution.Width/2) * math.Tan(math.Pi/180*((180-fov)/2)),
 	}
 }
 
