@@ -31,3 +31,29 @@ func (this *Vector) Cross(other *Vector) Vector {
 		Z: this.X*other.Y - this.Y*other.X,
 	}
 }
+
+func (this *Vector) Add(other *Vector) Vector {
+	return Vector{
+		X: this.X + other.X,
+		Y: this.Y + other.Y,
+		Z: this.Z + other.Z,
+	}
+}
+
+func (this *Vector) Times(constant float64) Vector {
+	return Vector{
+		X: this.X * constant,
+		Y: this.Y * constant,
+		Z: this.Z * constant,
+	}
+}
+
+func VectorSum(vectors ...*Vector) Vector {
+	var result Vector
+
+	for _, vector := range vectors {
+		result = result.Add(vector)
+	}
+
+	return result
+}
