@@ -21,7 +21,7 @@ func (this *Vector) Magnitude() float64 {
 }
 
 func (this *Vector) Dot(other *Vector) float64 {
-	return this.X*other.X + this.Y + other.Y + this.Z*other.Z
+	return this.X*other.X + this.Y*other.Y + this.Z*other.Z
 }
 
 func (this *Vector) Cross(other *Vector) Vector {
