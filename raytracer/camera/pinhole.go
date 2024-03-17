@@ -72,7 +72,7 @@ func (camera *Pinhole) GetRayForPixel(x, y int) primitive.Ray {
 
 	// The direction of the ray will be a linear combination of the camera's basis vectors
 	forwardComponent := camera.lookDir.Times(camera.planeDistance)
-	rightComponent := camera.upDir.Times(float64(x - (camera.Sensor.Width / 2)))
+	rightComponent := camera.rightDir.Times(float64(x - (camera.Sensor.Width / 2)))
 	upComponent := camera.upDir.Times(float64(y - (camera.Sensor.Height / 2)))
 	ray.Direction = geometry.VectorSum(&forwardComponent, &rightComponent, &upComponent)
 
