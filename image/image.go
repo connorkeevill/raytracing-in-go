@@ -41,8 +41,8 @@ func WriteToFile(image Image, filepath string) {
 	file.WriteString(strconv.Itoa(image.Width) + " " + strconv.Itoa(image.Height) + "\n")
 	file.WriteString(strconv.Itoa(255) + "\n")
 
-	for x := range image.Width {
-		for y := range image.Height {
+	for y := range image.Height {
+		for x := range image.Width {
 			file.WriteString(strconv.Itoa(int(image.GetPixel(x, y).R)))
 			file.WriteString(" ")
 			file.WriteString(strconv.Itoa(int(image.GetPixel(x, y).G)))
