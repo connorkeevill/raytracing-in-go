@@ -62,7 +62,7 @@ func (camera *Pinhole) Render(traceable Traceable) image.Image {
 			// Loop variables captured by function may have unintended values (and IDE error??)
 			x := x
 			y := y
-			go func() { camera.Sensor.SetPixel(x, y, traceable.Trace(camera.GetRayForPixel(x, y))) }()
+			func() { camera.Sensor.SetPixel(x, y, traceable.Trace(camera.GetRayForPixel(x, y))) }()
 		}
 	}
 

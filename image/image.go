@@ -8,7 +8,7 @@ import (
 )
 
 type Image struct {
-	pixels        [][]colour.Colour
+	pixels        [][]colour.RGB8Bit
 	Width, Height int
 }
 
@@ -18,7 +18,7 @@ func New(width, height int) Image {
 	image.Height = height
 
 	for _ = range width {
-		var newCol = make([]colour.Colour, height)
+		var newCol = make([]colour.RGB8Bit, height)
 
 		image.pixels = append(image.pixels, newCol)
 	}
@@ -26,12 +26,12 @@ func New(width, height int) Image {
 	return image
 }
 
-func (i *Image) GetPixel(x, y int) colour.Colour {
+func (i *Image) GetPixel(x, y int) colour.RGB8Bit {
 	return i.pixels[x][y]
 }
 
 func (i *Image) SetPixel(x, y int, colour colour.Colour) {
-	i.pixels[x][y] = colour
+	i.pixels[x][y] = colour.To8Bit()
 }
 
 func WriteToFile(image Image, filepath string) {

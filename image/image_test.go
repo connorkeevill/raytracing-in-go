@@ -30,8 +30,8 @@ func TestNew(t *testing.T) {
 func TestGetSetPixel(t *testing.T) {
 	img := New(10, 10)
 	x, y := 5, 5
-	expectedColour := colour.Colour{R: 255, G: 255, B: 255}
-	img.SetPixel(x, y, expectedColour)
+	expectedColour := colour.RGB8Bit{R: 255, G: 255, B: 255}
+	img.SetPixel(x, y, &expectedColour)
 
 	receivedColour := img.GetPixel(x, y)
 	if receivedColour != expectedColour {
@@ -41,14 +41,14 @@ func TestGetSetPixel(t *testing.T) {
 
 func TestWriteToFile(t *testing.T) {
 	img := New(2, 2)
-	colour1 := colour.Colour{R: 255, G: 0, B: 0}
-	colour2 := colour.Colour{R: 0, G: 255, B: 0}
-	colour3 := colour.Colour{R: 0, G: 0, B: 255}
-	colour4 := colour.Colour{R: 255, G: 255, B: 255}
-	img.SetPixel(0, 0, colour1)
-	img.SetPixel(1, 0, colour2)
-	img.SetPixel(0, 1, colour3)
-	img.SetPixel(1, 1, colour4)
+	colour1 := colour.RGB8Bit{R: 255, G: 0, B: 0}
+	colour2 := colour.RGB8Bit{R: 0, G: 255, B: 0}
+	colour3 := colour.RGB8Bit{R: 0, G: 0, B: 255}
+	colour4 := colour.RGB8Bit{R: 255, G: 255, B: 255}
+	img.SetPixel(0, 0, &colour1)
+	img.SetPixel(1, 0, &colour2)
+	img.SetPixel(0, 1, &colour3)
+	img.SetPixel(1, 1, &colour4)
 
 	filepath := "test_image.ppm"
 	WriteToFile(img, filepath)
@@ -64,14 +64,14 @@ func TestWriteToFile(t *testing.T) {
 
 func TestWriteToFileWithFormatCheck(t *testing.T) {
 	img := New(2, 2)
-	colour1 := colour.Colour{R: 255, G: 0, B: 0}     // Red
-	colour2 := colour.Colour{R: 0, G: 255, B: 0}     // Green
-	colour3 := colour.Colour{R: 0, G: 0, B: 255}     // Blue
-	colour4 := colour.Colour{R: 255, G: 255, B: 255} // White
-	img.SetPixel(0, 0, colour1)
-	img.SetPixel(1, 0, colour2)
-	img.SetPixel(0, 1, colour3)
-	img.SetPixel(1, 1, colour4)
+	colour1 := colour.RGB8Bit{R: 255, G: 0, B: 0}     // Red
+	colour2 := colour.RGB8Bit{R: 0, G: 255, B: 0}     // Green
+	colour3 := colour.RGB8Bit{R: 0, G: 0, B: 255}     // Blue
+	colour4 := colour.RGB8Bit{R: 255, G: 255, B: 255} // White
+	img.SetPixel(0, 0, &colour1)
+	img.SetPixel(1, 0, &colour2)
+	img.SetPixel(0, 1, &colour3)
+	img.SetPixel(1, 1, &colour4)
 
 	filepath := "test_image.ppm"
 	WriteToFile(img, filepath)

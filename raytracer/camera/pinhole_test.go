@@ -12,7 +12,7 @@ type MockTraceable struct{}
 
 func (m *MockTraceable) Trace(ray primitive.Ray) colour.Colour {
 	// Simple mock implementation: returns a fixed colour for any ray.
-	return colour.Colour{R: 1.0, G: 0.0, B: 0.0}
+	return &colour.RGB8Bit{R: 1.0, G: 0.0, B: 0.0}
 }
 
 func TestNewPinholeCamera(t *testing.T) {
@@ -62,16 +62,16 @@ func TestRender(t *testing.T) {
 	fov := 90.0
 
 	cam := New(position, lookDir, resolution, fov)
-	traceable := &MockTraceable{}
+	traceable := MockTraceable{}
 
-	rendered := cam.Render(traceable)
+	rendered := cam.Render(&traceable)
 
 	if rendered.Width != resolution.Width || rendered.Height != resolution.Height {
 		t.Errorf("Rendered image resolution does not match expected values")
 	}
 
 	// Check if the mock Traceable was called and the correct colour was set for at least one pixel
-	expectedColour := colour.Colour{R: 1.0, G: 0.0, B: 0.0}
+	expectedColour := colour.RGB8Bit{R: 1.0, G: 0.0, B: 0.0}
 	if pixelColour := rendered.GetPixel(0, 0); pixelColour != expectedColour {
 		t.Errorf("Expected pixel colour %v, got %v", expectedColour, pixelColour)
 	}
