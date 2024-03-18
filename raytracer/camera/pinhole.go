@@ -32,11 +32,16 @@ func New(position, lookDir geometry.Vector, resolution Resolution, fov float64) 
 	// product between the lookDir vector (or, strictly speaking, its negation), and one other vector; we will use
 	// the world "up" vector, assuming that the camera will rotate around the y-axis.
 	worldUp := geometry.Vector{Y: 1}
-	cameraRight := lookDir.Cross(&worldUp)
+	cameraBehind := lookDir.Times(-1)
+	cameraRight := cameraBehind.Cross(&worldUp)
 
 	// Now that we have the both the directions in front of and to the right of the camera (i.e., directions in world
 	// space) we can take another cross product to get the perpendicular direction; the vector up relative to the camera.
-	cameraUp := cameraRight.Cross(&lookDir)
+	cameraUp := lookDir.Cross(&cameraRight)
+
+	cameraRight.Normalise()
+	cameraUp.Normalise()
+	lookDir.Normalise()
 
 	return Pinhole{
 		FOV:      fov,
