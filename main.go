@@ -1,26 +1,21 @@
 package main
 
 import (
-	"raytracing-in-go/colour"
+	"fmt"
+	"raytracing-in-go/geometry"
 	"raytracing-in-go/image"
+	"raytracing-in-go/raytracer/camera"
 )
 
 func main() {
-	width := 50
-	height := 30
+	cam := camera.New(geometry.Vector{}, geometry.Vector{Z: 1}, camera.Resolution{Width: 5000, Height: 5000}, 170)
 
-	picture := image.New(width, height)
+	tracingEnv := camera.DemoTraceable{}
+	picture := cam.Render(&tracingEnv)
 
-	for row := range height {
-		for col := range width {
-			if (row+col)%2 == 0 {
-				picture[row][col] = colour.New(255, 0, 0)
-			} else {
-				picture[row][col] = colour.New(0, 0, 255)
-			}
-		}
-	}
+	fmt.Println("Rendered, writing to file")
 
-	// By this point we have a simple checkerboard image; now let's save to a file:
 	image.WriteToFile(picture, "image.ppm")
+
+	fmt.Println("Written")
 }
