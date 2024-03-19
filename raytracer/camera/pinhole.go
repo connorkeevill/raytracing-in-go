@@ -23,7 +23,7 @@ type Resolution struct {
 }
 
 type Traceable interface {
-	Trace(ray primitive.Ray) colour.Colour
+	Trace(ray *primitive.Ray) colour.Colour
 }
 
 func New(position, lookDir geometry.Vector, resolution Resolution, fov float64) Pinhole {
@@ -62,7 +62,8 @@ func (camera *Pinhole) Render(traceable Traceable) image.Image {
 			// Loop variables captured by function may have unintended values (and IDE error??)
 			x := x
 			y := y
-			func() { camera.Sensor.SetPixel(x, y, traceable.Trace(camera.GetRayForPixel(x, y))) }()
+			ray := camera.GetRayForPixel(x, y)
+			func() { camera.Sensor.SetPixel(x, y, traceable.Trace(&ray)) }()
 		}
 	}
 
