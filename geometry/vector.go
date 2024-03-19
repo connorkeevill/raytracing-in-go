@@ -40,6 +40,14 @@ func (this *Vector) Add(other *Vector) Vector {
 	}
 }
 
+func (this *Vector) Subtract(other *Vector) Vector {
+	return Vector{
+		X: this.X - other.X,
+		Y: this.Y - other.Y,
+		Z: this.Z - other.Z,
+	}
+}
+
 func (this *Vector) Times(constant float64) Vector {
 	return Vector{
 		X: this.X * constant,
