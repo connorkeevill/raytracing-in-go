@@ -10,7 +10,7 @@ import (
 // MockTraceable implements the Traceable interface for testing.
 type MockTraceable struct{}
 
-func (m *MockTraceable) Trace(ray primitive.Ray) colour.Colour {
+func (m *MockTraceable) Trace(*primitive.Ray) colour.Colour {
 	// Simple mock implementation: returns a fixed colour for any ray.
 	return &colour.RGB8Bit{R: 1.0, G: 0.0, B: 0.0}
 }

@@ -12,8 +12,8 @@ func New8Bit(r, g, b byte) RGB8Bit {
 	return RGB8Bit{r, g, b}
 }
 
-func (eightBit *RGB8Bit) To8Bit() RGB8Bit {
-	return *eightBit
+func (eightBit RGB8Bit) To8Bit() RGB8Bit {
+	return eightBit
 }
 
 type RGB struct {
@@ -36,7 +36,7 @@ func onInterval(lower, upper, value float64) bool {
 	return lower <= value && value <= upper
 }
 
-func (rgb *RGB) To8Bit() RGB8Bit {
+func (rgb RGB) To8Bit() RGB8Bit {
 	return RGB8Bit{
 		R: byte(rgb.R * 255),
 		G: byte(rgb.G * 255),

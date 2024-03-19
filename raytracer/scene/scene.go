@@ -30,8 +30,6 @@ func (scene *Scene) Trace(ray *Ray) colour.Colour {
 		}
 	}
 
-	var s Traceable = scene
 	position := ray.At(closestHit.T)
-
-	return (*closestHit.Surface).Material().Shade(closestHit, &s, &position, &closestHit.Normal)
+	return closestHit.Surface.Material().Shade(closestHit, scene, &position, &closestHit.Normal)
 }

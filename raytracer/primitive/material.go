@@ -12,13 +12,13 @@ type Traceable interface {
 type Material interface {
 	Shade(
 		hit *Hit,
-		scene *Traceable,
+		scene Traceable,
 		position, normal *geometry.Vector) colour.Colour
 }
 
 type RayDirectionMaterial struct{}
 
-func (mat *RayDirectionMaterial) Shade(hit *Hit, scene *Traceable, position, normal *geometry.Vector) colour.Colour {
+func (mat *RayDirectionMaterial) Shade(hit *Hit, scene Traceable, position, normal *geometry.Vector) colour.Colour {
 	// Hit normal should already be normalised, but ensure:
 	hit.Normal.Normalise()
 
