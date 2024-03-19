@@ -1,6 +1,7 @@
 package camera
 
 import (
+	"fmt"
 	"math"
 	"raytracing-in-go/colour"
 	"raytracing-in-go/geometry"
@@ -43,6 +44,10 @@ func New(position, lookDir geometry.Vector, resolution Resolution, fov float64) 
 	cameraUp.Normalise()
 	lookDir.Normalise()
 
+	fmt.Println(cameraRight)
+	fmt.Println(cameraUp)
+	fmt.Println(lookDir)
+
 	return Pinhole{
 		FOV:      fov,
 		Sensor:   image.New(resolution.Width, resolution.Height),
@@ -79,7 +84,7 @@ func (camera *Pinhole) GetRayForPixel(x, y int) primitive.Ray {
 	// The direction of the ray will be a linear combination of the camera's basis vectors
 	forwardComponent := camera.lookDir.Times(camera.planeDistance)
 	rightComponent := camera.rightDir.Times(float64(x - (camera.Sensor.Width / 2)))
-	upComponent := camera.upDir.Times(float64(y - (camera.Sensor.Height / 2)))
+	upComponent := camera.upDir.Times(float64((camera.Sensor.Height / 2) - y))
 	ray.Direction = geometry.VectorSum(&forwardComponent, &rightComponent, &upComponent)
 
 	ray.Normalise()
