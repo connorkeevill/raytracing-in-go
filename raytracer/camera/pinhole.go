@@ -1,7 +1,6 @@
 package camera
 
 import (
-	"fmt"
 	"math"
 	"raytracing-in-go/colour"
 	"raytracing-in-go/geometry"
@@ -43,10 +42,6 @@ func New(position, lookDir geometry.Vector, resolution Resolution, fov float64) 
 	cameraRight.Normalise()
 	cameraUp.Normalise()
 	lookDir.Normalise()
-
-	fmt.Println(cameraRight)
-	fmt.Println(cameraUp)
-	fmt.Println(lookDir)
 
 	return Pinhole{
 		FOV:      fov,
