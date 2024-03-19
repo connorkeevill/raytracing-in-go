@@ -11,13 +11,17 @@ import (
 )
 
 func main() {
+	demo := camera.DemoTraceable{}
+
 	environment := scene.Scene{}
 	environment.Objects = append(environment.Objects, &object.Sphere{
 		M:      &primitive.RayDirectionMaterial{},
-		Center: geometry.Vector{Z: 3},
+		Center: geometry.Vector{Z: 3, Y: 3},
 		Radius: 2})
 
-	cam := camera.New(geometry.Vector{}, geometry.Vector{Z: 1}, camera.Resolution{Width: 1000, Height: 1000}, 90)
+	cam := camera.New(geometry.Vector{}, geometry.Vector{Z: 1}, camera.Resolution{Width: 1000, Height: 1000}, 170)
+	demoImage := cam.Render(&demo)
+	image.WriteToFile(demoImage, "demo.ppm")
 	picture := cam.Render(&environment)
 
 	fmt.Println("Rendered, writing to file")
