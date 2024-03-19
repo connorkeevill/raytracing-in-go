@@ -31,11 +31,13 @@ func (sphere *Sphere) Intersect(ray *primitive.Ray) []primitive.Hit {
 
 	t := -b + squareRootOf/2*a
 	position := ray.At(t)
+	normal := position.Subtract(&sphere.Center)
+	normal.Normalise()
 	hits = append(hits, primitive.Hit{
 		T:           t,
 		IncomingRay: *ray,
 		Surface:     surface,
-		Normal:      position.Subtract(&sphere.Center),
+		Normal:      normal,
 		Position:    position,
 	})
 
@@ -45,11 +47,13 @@ func (sphere *Sphere) Intersect(ray *primitive.Ray) []primitive.Hit {
 
 	t = -b - squareRootOf/2*a
 	position = ray.At(t)
+	normal = position.Subtract(&sphere.Center)
+	normal.Normalise()
 	hits = append(hits, primitive.Hit{
 		T:           t,
 		IncomingRay: *ray,
 		Surface:     surface,
-		Normal:      position.Subtract(&sphere.Center),
+		Normal:      normal,
 		Position:    position,
 	})
 
