@@ -16,10 +16,10 @@ func main() {
 	environment := scene.Scene{}
 	environment.Objects = append(environment.Objects, &object.Sphere{
 		M:      &primitive.RayDirectionMaterial{},
-		Center: geometry.Vector{Z: 3, Y: 3},
-		Radius: 2})
+		Center: geometry.Vector{Z: 2.5},
+		Radius: 1})
 
-	cam := camera.New(geometry.Vector{}, geometry.Vector{Z: 1}, camera.Resolution{Width: 1000, Height: 1000}, 170)
+	cam := camera.New(geometry.Vector{}, geometry.Vector{Z: 1}, camera.Resolution{Width: 1000, Height: 1000}, 60)
 	demoImage := cam.Render(&demo)
 	image.WriteToFile(demoImage, "demo.ppm")
 	picture := cam.Render(&environment)
