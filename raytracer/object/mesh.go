@@ -72,7 +72,19 @@ type Mesh struct {
 }
 
 func (mesh *Mesh) Intersect(ray *Ray) []Hit {
-	return nil
+	var hits []Hit
+
+	for _, f := range mesh.faces {
+		faceIntersection := f.Intersect(ray)
+
+		if len(faceIntersection) == 0 {
+			continue
+		}
+
+		hits = append(hits, faceIntersection...)
+	}
+
+	return hits
 }
 
 func (mesh *Mesh) Material() Material {
