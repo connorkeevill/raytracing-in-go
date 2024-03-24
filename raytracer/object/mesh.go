@@ -69,6 +69,7 @@ func (f *face) barycentric(planeIntersection, AB, AC Vector) (float64, float64, 
 type Mesh struct {
 	vertices map[Vector]struct{}
 	faces    []face
+	material Material
 }
 
 func (mesh *Mesh) Intersect(ray *Ray) []Hit {
@@ -88,5 +89,5 @@ func (mesh *Mesh) Intersect(ray *Ray) []Hit {
 }
 
 func (mesh *Mesh) Material() Material {
-	return nil
+	return mesh.material
 }
