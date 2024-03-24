@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"raytracing-in-go/geometry"
 	"raytracing-in-go/image"
 	"raytracing-in-go/raytracer/camera"
@@ -18,6 +19,12 @@ func main() {
 		M:      &primitive.RayDirectionMaterial{},
 		Center: geometry.Vector{Z: 2.5},
 		Radius: 1})
+
+	file, _ := os.Open("file.obj")
+	mesh := object.FromObjFile(*file)
+	mat := &primitive.RayDirectionMaterial{}
+	mesh.SetMaterial(mat)
+	environment.Objects = append(environment.Objects, &mesh)
 
 	cam := camera.New(geometry.Vector{}, geometry.Vector{Z: 1}, camera.Resolution{Width: 1000, Height: 1000}, 60)
 	demoImage := cam.Render(&demo)

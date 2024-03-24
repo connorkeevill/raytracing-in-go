@@ -1,8 +1,13 @@
 package object
 
 import (
+	"bufio"
+	"fmt"
+	"os"
 	. "raytracing-in-go/geometry"
 	. "raytracing-in-go/raytracer/primitive"
+	"strconv"
+	"strings"
 )
 
 type face struct {
@@ -67,7 +72,7 @@ func (f *face) barycentric(planeIntersection, AB, AC Vector) (float64, float64, 
 }
 
 type Mesh struct {
-	vertices map[Vector]struct{}
+	vertices map[Vector]*Vector
 	faces    []face
 	material Material
 }
@@ -89,5 +94,76 @@ func (mesh *Mesh) Intersect(ray *Ray) []Hit {
 }
 
 func (mesh *Mesh) Material() Material {
+	fmt.Println("meshing")
 	return mesh.material
+}
+
+func valueFromErrorTuple[T any](value T, err error) T {
+	if err != nil {
+		panic("An error occurred")
+	}
+
+	return value
+}
+
+func (mesh *Mesh) SetMaterial(material Material) {
+	mesh.material = material
+}
+
+func FromObjFile(file os.File) Mesh {
+	fmt.Println("reading mesh")
+	mesh := Mesh{
+		vertices: map[Vector]*Vector{},
+		faces:    []face{},
+	}
+
+	scanner := bufio.NewScanner(&file)
+	var vectors []Vector
+
+	for scanner.Scan() {
+		tokens := strings.Fields(scanner.Text())
+
+		if len(tokens) == 0 {
+			continue
+		}
+
+		if tokens[0] != "v" && tokens[0] != "f" {
+			continue
+		}
+
+		line := 1
+
+		if tokens[0] == "v" { // Add a new vertex
+			newVertex := Vector{
+				X: valueFromErrorTuple(strconv.ParseFloat(tokens[1], 64)),
+				Y: valueFromErrorTuple(strconv.ParseFloat(tokens[2], 64)),
+				Z: valueFromErrorTuple(strconv.ParseFloat(tokens[3], 64)),
+			}
+
+			_, ok := mesh.vertices[newVertex]
+
+			// Only add if new
+			if !ok {
+				mesh.vertices[newVertex] = &newVertex
+				vectors = append(vectors, newVertex)
+				line += 1
+			}
+		} else if tokens[0] == "f" {
+			firstVertex := vectors[valueFromErrorTuple(strconv.Atoi(tokens[1]))-1]
+
+			for index := range tokens[2:] {
+				mesh.faces = append(mesh.faces, face{
+					a:    mesh.vertices[firstVertex],
+					b:    mesh.vertices[vectors[valueFromErrorTuple(strconv.Atoi(tokens[index+2]))-1]],
+					c:    mesh.vertices[vectors[valueFromErrorTuple(strconv.Atoi(tokens[index+1]))-1]],
+					mesh: &mesh,
+				})
+			}
+		}
+	}
+
+	fmt.Println("%d vertices", len(mesh.vertices))
+	fmt.Println("%d faces", len(mesh.faces))
+
+	return mesh
 }
