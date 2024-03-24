@@ -31,7 +31,7 @@ func (f *face) Intersect(ray *Ray) []Hit {
 	d := normal.X*f.a.X + normal.Y*f.a.Y + normal.Z*f.a.Z
 
 	// Solving the above equation gets us this expression for T:
-	T := -(normal.Dot(&ray.Start) * d) / normalDotDirection
+	T := -(normal.Dot(&ray.Start) + d) / normalDotDirection
 	position := ray.At(T)
 
 	// The ray intersects with the plane - great. Now must check that the intersection is within the triangle.
