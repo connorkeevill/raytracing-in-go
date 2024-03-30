@@ -140,14 +140,9 @@ func FromObjFile(file os.File) Mesh {
 				Z: valueFromErrorTuple(strconv.ParseFloat(tokens[3], 64)),
 			}
 
-			_, ok := mesh.vertices[newVertex]
-
-			// Only add if new
-			if !ok {
-				mesh.vertices[newVertex] = &newVertex
-				vectors = append(vectors, newVertex)
-				line += 1
-			}
+			mesh.vertices[newVertex] = &newVertex
+			vectors = append(vectors, newVertex)
+			line += 1
 		} else if tokens[0] == "f" {
 			// .obj files which contain textures and normals will have multiple indices separated by slashes
 			for index := range tokens {
