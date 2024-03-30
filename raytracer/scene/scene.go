@@ -25,7 +25,7 @@ func (scene *Scene) Trace(ray *Ray) colour.Colour {
 	closestHit := &hits[0]
 
 	for _, hit := range hits {
-		if hit.T < closestHit.T {
+		if hit.T < closestHit.T && hit.T > 0 {
 			closestHit = &hit
 		}
 	}
