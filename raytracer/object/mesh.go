@@ -149,6 +149,11 @@ func FromObjFile(file os.File) Mesh {
 				line += 1
 			}
 		} else if tokens[0] == "f" {
+			// .obj files which contain textures and normals will have multiple indices separated by slashes
+			for index := range tokens {
+				tokens[index] = strings.Split(tokens[index], "/")[0]
+			}
+
 			firstVertex := vectors[valueFromErrorTuple(strconv.Atoi(tokens[1]))-1]
 
 			for index := 2; index < len(tokens); index += 1 {
