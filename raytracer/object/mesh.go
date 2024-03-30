@@ -114,6 +114,7 @@ func FromObjFile(file os.File) Mesh {
 	mesh := Mesh{
 		vertices: map[Vector]*Vector{},
 		faces:    []face{},
+		material: &RayDirectionMaterial{},
 	}
 
 	scanner := bufio.NewScanner(&file)
