@@ -94,7 +94,6 @@ func (mesh *Mesh) Intersect(ray *Ray) []Hit {
 }
 
 func (mesh *Mesh) Material() Material {
-	fmt.Println("meshing")
 	return mesh.material
 }
 
@@ -151,19 +150,16 @@ func FromObjFile(file os.File) Mesh {
 		} else if tokens[0] == "f" {
 			firstVertex := vectors[valueFromErrorTuple(strconv.Atoi(tokens[1]))-1]
 
-			for index := range tokens[2:] {
+			for index := 2; index < len(tokens); index += 1 {
 				mesh.faces = append(mesh.faces, face{
 					a:    mesh.vertices[firstVertex],
-					b:    mesh.vertices[vectors[valueFromErrorTuple(strconv.Atoi(tokens[index+2]))-1]],
-					c:    mesh.vertices[vectors[valueFromErrorTuple(strconv.Atoi(tokens[index+1]))-1]],
+					b:    mesh.vertices[vectors[valueFromErrorTuple(strconv.Atoi(tokens[index]))-1]],
+					c:    mesh.vertices[vectors[valueFromErrorTuple(strconv.Atoi(tokens[index-1]))-1]],
 					mesh: &mesh,
 				})
 			}
 		}
 	}
-
-	fmt.Println("%d vertices", len(mesh.vertices))
-	fmt.Println("%d faces", len(mesh.faces))
 
 	return mesh
 }
