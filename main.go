@@ -20,13 +20,13 @@ func main() {
 		Center: geometry.Vector{Z: 2.5},
 		Radius: 1})
 
-	file, _ := os.Open("file.obj")
+	file, _ := os.Open("teapot.obj")
 	mesh := object.FromObjFile(*file)
 	mat := &primitive.RayDirectionMaterial{}
 	mesh.SetMaterial(mat)
 	environment.Objects = append(environment.Objects, &mesh)
 
-	cam := camera.New(geometry.Vector{}, geometry.Vector{Z: 1}, camera.Resolution{Width: 1000, Height: 1000}, 60)
+	cam := camera.New(geometry.Vector{Y: 0, Z: -35}, geometry.Vector{Z: 1}, camera.Resolution{Width: 500, Height: 500}, 60)
 	demoImage := cam.Render(&demo)
 	image.WriteToFile(demoImage, "demo.ppm")
 	picture := cam.Render(&environment)
