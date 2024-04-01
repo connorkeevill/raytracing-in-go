@@ -131,8 +131,6 @@ func FromObjFile(file os.File) Mesh {
 			continue
 		}
 
-		line := 1
-
 		if tokens[0] == "v" { // Add a new vertex
 			newVertex := Vector{
 				X: valueFromErrorTuple(strconv.ParseFloat(tokens[1], 64)),
@@ -142,7 +140,6 @@ func FromObjFile(file os.File) Mesh {
 
 			mesh.vertices[newVertex] = &newVertex
 			vectors = append(vectors, newVertex)
-			line += 1
 		} else if tokens[0] == "f" {
 			// .obj files which contain textures and normals will have multiple indices separated by slashes
 			for index := range tokens {
@@ -151,11 +148,11 @@ func FromObjFile(file os.File) Mesh {
 
 			firstVertex := vectors[valueFromErrorTuple(strconv.Atoi(tokens[1]))-1]
 
-			for index := 2; index < len(tokens); index += 1 {
+			for index := 3; index < len(tokens); index += 1 {
 				mesh.faces = append(mesh.faces, face{
 					a:    mesh.vertices[firstVertex],
-					b:    mesh.vertices[vectors[valueFromErrorTuple(strconv.Atoi(tokens[index]))-1]],
-					c:    mesh.vertices[vectors[valueFromErrorTuple(strconv.Atoi(tokens[index-1]))-1]],
+					b:    mesh.vertices[vectors[valueFromErrorTuple(strconv.Atoi(tokens[index-1]))-1]],
+					c:    mesh.vertices[vectors[valueFromErrorTuple(strconv.Atoi(tokens[index]))-1]],
 					mesh: &mesh,
 				})
 			}
