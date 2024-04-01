@@ -28,7 +28,7 @@ func (f *face) Intersect(ray *Ray) []Hit {
 	}
 
 	// Plane equation now becomes ax + by + cz - d = 0 where (a b c) = normal and d = [the below]
-	d := normal.X*f.a.X + normal.Y*f.a.Y + normal.Z*f.a.Z
+	d := -normal.Dot(f.a)
 
 	// Solving the above equation gets us this expression for T:
 	T := -(normal.Dot(&ray.Start) + d) / normalDotDirection
