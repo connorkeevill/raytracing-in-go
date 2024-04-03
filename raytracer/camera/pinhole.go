@@ -63,7 +63,7 @@ func (camera *Pinhole) Render(traceable Traceable) image.Image {
 			x := x
 			y := y
 			ray := camera.GetRayForPixel(x, y)
-			func() { camera.Sensor.SetPixel(x, y, traceable.Trace(&ray)) }()
+			go func() { camera.Sensor.SetPixel(x, y, traceable.Trace(&ray)) }() // TODO: Need to use a wait group here
 		}
 	}
 
